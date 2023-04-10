@@ -35,7 +35,7 @@ class NumberShapes extends StatefulWidget {
 }
 
 class _NumberShapesState extends State<NumberShapes> {
-  final _textController = TextEditingController();
+  final TextEditingController _textController = TextEditingController();
 
   bool _isError = false;
 
@@ -50,7 +50,7 @@ class _NumberShapesState extends State<NumberShapes> {
         child: Center(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
+            children: <Widget>[
               Text(
                 'Please input a number to see if it is square or cube.',
                 style: Theme.of(context).textTheme.titleMedium,
@@ -64,7 +64,7 @@ class _NumberShapesState extends State<NumberShapes> {
                   FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
                 ],
                 keyboardType: TextInputType.number,
-                onChanged: (value) {
+                onChanged: (String value) {
                   setState(
                     () {
                       _isError = false;
@@ -78,7 +78,7 @@ class _NumberShapesState extends State<NumberShapes> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          final inputNumber = int.tryParse(_textController.text);
+          final int? inputNumber = int.tryParse(_textController.text);
           if (inputNumber == null) {
             setState(() {
               _isError = true;
@@ -89,7 +89,7 @@ class _NumberShapesState extends State<NumberShapes> {
               builder: (BuildContext context) {
                 return AlertDialog(
                   title: Text(inputNumber.toString()),
-                  content: Text('Number $inputNumber is ${getNumberState(inputNumber)}.'),
+                  content: Text('Number $inputNumber is ${_getNumberState(inputNumber)}.'),
                 );
               },
             );
@@ -101,7 +101,7 @@ class _NumberShapesState extends State<NumberShapes> {
   }
 }
 
-String getNumberState(int number) {
+String _getNumberState(int number) {
   final bool numberIsSquare = number.toDouble().isPerfectSquare;
   final bool numberIsCube = number.toDouble().isPerfectCube;
 
